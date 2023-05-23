@@ -1,0 +1,426 @@
+{
+  "version": "21.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "message-scheduling-app.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "message-scheduling-app.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "message-scheduling-app": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "message-scheduling-app.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/55d820b80df9b7859a6687fbef5bbb17578b95ec758b4d28f0ca4aec0a4707f4.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "message-scheduling-app.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "message-scheduling-app.assets"
+      ],
+      "metadata": {
+        "/message-scheduling-app/customer_id": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "customerid129232E9"
+            }
+          }
+        ],
+        "/message-scheduling-app/customer_id/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "customerid129232E9"
+          }
+        ],
+        "/message-scheduling-app/enable_message_scheduling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "enablemessageschedulingD1EBB4B2"
+          }
+        ],
+        "/message-scheduling-app/customer_handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "customerhandlerDBA6143A"
+          }
+        ],
+        "/message-scheduling-app/send_ses/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "sendsesBB71154B"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerA15B215B"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerDeployment92665D03584b95e895bc7215b40073498b9c9579"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerDeploymentStageprod7DDF6B69"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerEndpoint3F126613"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/{proxy+}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerproxy937A8A12"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/{proxy+}/ANY/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.ANY..{proxy+}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerproxyANYApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DANYproxyBBBE846C"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/{proxy+}/ANY/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.ANY..{proxy+}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerproxyANYApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DANYproxy2D353D0D"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/{proxy+}/ANY/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerproxyANY41EA8FAF"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/ANY/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.ANY..": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerANYApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DANYE592CEC4"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/ANY/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.ANY..": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerANYApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DANY84E7F3F9"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/ANY/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerANY61799B2B"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomer1925A188"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/POST/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.POST..CRUD_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerPOSTApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DPOSTCRUDcustomer89BD33F6"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/POST/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.POST..CRUD_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerPOSTApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DPOSTCRUDcustomer58A853FF"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerPOST38083819"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/GET/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.GET..CRUD_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerGETApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DGETCRUDcustomer7B4DA172"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/GET/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.GET..CRUD_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerGETApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DGETCRUDcustomer244CFBA6"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerGET8238678B"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/PATCH/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.PATCH..CRUD_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerPATCHApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DPATCHCRUDcustomer704A8A35"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/PATCH/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.PATCH..CRUD_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerPATCHApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DPATCHCRUDcustomer609B7895"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/PATCH/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerPATCH75D27B00"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/DELETE/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.DELETE..CRUD_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerDELETEApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DDELETECRUDcustomer598280AA"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/DELETE/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.DELETE..CRUD_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerDELETEApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DDELETECRUDcustomer79431010"
+          }
+        ],
+        "/message-scheduling-app/CRUD_customer/Default/CRUD_customer/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CRUDcustomerDELETE59736653"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomers5C8AE6BF"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersDeployment464C006Eb700d0a8e5a45fdb0945f57693ae94ca"
+          }
+        ],
+        "/message-scheduling-app/all_customers/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersDeploymentStageprodAF3C56D7"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersEndpointD5782876"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/{proxy+}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersproxyCFCAF4DB"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/{proxy+}/ANY/ApiPermission.messageschedulingappallcustomers46DEF15A.ANY..{proxy+}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersproxyANYApiPermissionmessageschedulingappallcustomers46DEF15AANYproxyFE641E8C"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/{proxy+}/ANY/ApiPermission.Test.messageschedulingappallcustomers46DEF15A.ANY..{proxy+}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersproxyANYApiPermissionTestmessageschedulingappallcustomers46DEF15AANYproxy1C513B46"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/{proxy+}/ANY/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersproxyANY753308FA"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/ANY/ApiPermission.messageschedulingappallcustomers46DEF15A.ANY..": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersANYApiPermissionmessageschedulingappallcustomers46DEF15AANY08FBF725"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/ANY/ApiPermission.Test.messageschedulingappallcustomers46DEF15A.ANY..": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersANYApiPermissionTestmessageschedulingappallcustomers46DEF15AANYFDD838E6"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/ANY/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersANY1F1F79CD"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/all_customers/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomers4B948329"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/all_customers/GET/ApiPermission.messageschedulingappallcustomers46DEF15A.GET..all_customers": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersGETApiPermissionmessageschedulingappallcustomers46DEF15AGETallcustomers62733A94"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/all_customers/GET/ApiPermission.Test.messageschedulingappallcustomers46DEF15A.GET..all_customers": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersGETApiPermissionTestmessageschedulingappallcustomers46DEF15AGETallcustomers409AA75D"
+          }
+        ],
+        "/message-scheduling-app/all_customers/Default/all_customers/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allcustomersGET91E8B63E"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomer81DD0E2E"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerDeployment5B89FC46a585faad9b7f702c4a69d0d921962e7f"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerDeploymentStageprod0CF03701"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerEndpoint036C01AC"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/{proxy+}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerproxy4817AA25"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/{proxy+}/ANY/ApiPermission.messageschedulingappnotifycustomer356C68D9.ANY..{proxy+}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerproxyANYApiPermissionmessageschedulingappnotifycustomer356C68D9ANYproxy32880554"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/{proxy+}/ANY/ApiPermission.Test.messageschedulingappnotifycustomer356C68D9.ANY..{proxy+}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerproxyANYApiPermissionTestmessageschedulingappnotifycustomer356C68D9ANYproxy0EAB412F"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/{proxy+}/ANY/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerproxyANYAC6AAA6A"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/ANY/ApiPermission.messageschedulingappnotifycustomer356C68D9.ANY..": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerANYApiPermissionmessageschedulingappnotifycustomer356C68D9ANY968CC942"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/ANY/ApiPermission.Test.messageschedulingappnotifycustomer356C68D9.ANY..": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerANYApiPermissionTestmessageschedulingappnotifycustomer356C68D9ANY2CC09B5E"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/ANY/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerANY68114751"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/notify_customer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomer61F395BD"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/notify_customer/GET/ApiPermission.messageschedulingappnotifycustomer356C68D9.GET..notify_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerGETApiPermissionmessageschedulingappnotifycustomer356C68D9GETnotifycustomer01C33F0E"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/notify_customer/GET/ApiPermission.Test.messageschedulingappnotifycustomer356C68D9.GET..notify_customer": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerGETApiPermissionTestmessageschedulingappnotifycustomer356C68D9GETnotifycustomerA612DCD0"
+          }
+        ],
+        "/message-scheduling-app/notify_customer/Default/notify_customer/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "notifycustomerGET83409350"
+          }
+        ],
+        "/message-scheduling-app/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/message-scheduling-app/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/message-scheduling-app/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/message-scheduling-app/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "message-scheduling-app"
+    }
+  }
+}

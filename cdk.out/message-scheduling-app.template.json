@@ -1,0 +1,2272 @@
+{
+ "Resources": {
+  "customerid129232E9": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "KeySchema": [
+     {
+      "AttributeName": "customer_id",
+      "KeyType": "HASH"
+     }
+    ],
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "customer_id",
+      "AttributeType": "S"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    },
+    "TableName": "customer_details"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/customer_id/Resource"
+   }
+  },
+  "enablemessageschedulingD1EBB4B2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonAPIGatewayInvokeFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/CloudWatchFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonAPIGatewayAdministrator"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AWSLambda_FullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonDynamoDBFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSESFullAccess"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/enable_message_scheduling/Resource"
+   }
+  },
+  "customerhandlerDBA6143A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "ce33f5dbdaa0d99e62f42e1291ab0dbe53c0ff6778d33bf173c3c1bc0673cafe.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "enablemessageschedulingD1EBB4B2",
+      "Arn"
+     ]
+    },
+    "Handler": "index.handler",
+    "Runtime": "python3.9"
+   },
+   "DependsOn": [
+    "enablemessageschedulingD1EBB4B2"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/customer_handler/Resource",
+    "aws:asset:path": "asset.ce33f5dbdaa0d99e62f42e1291ab0dbe53c0ff6778d33bf173c3c1bc0673cafe",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "sendsesBB71154B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "6eaa66822a8f78a91ca04be95b619c7753d68639d09f86fec820e7e63af573b8.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "enablemessageschedulingD1EBB4B2",
+      "Arn"
+     ]
+    },
+    "Handler": "index.handler",
+    "Runtime": "python3.9"
+   },
+   "DependsOn": [
+    "enablemessageschedulingD1EBB4B2"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/send_ses/Resource",
+    "aws:asset:path": "asset.6eaa66822a8f78a91ca04be95b619c7753d68639d09f86fec820e7e63af573b8",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CRUDcustomerA15B215B": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "CRUD_customer"
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Resource"
+   }
+  },
+  "CRUDcustomerDeployment92665D03584b95e895bc7215b40073498b9c9579": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    },
+    "Description": "Automatically created by the RestApi construct"
+   },
+   "DependsOn": [
+    "CRUDcustomerproxyANY41EA8FAF",
+    "CRUDcustomerproxy937A8A12",
+    "CRUDcustomerANY61799B2B",
+    "CRUDcustomerDELETE59736653",
+    "CRUDcustomerGET8238678B",
+    "CRUDcustomerPATCH75D27B00",
+    "CRUDcustomerPOST38083819",
+    "CRUDcustomer1925A188"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Deployment/Resource"
+   }
+  },
+  "CRUDcustomerDeploymentStageprod7DDF6B69": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    },
+    "DeploymentId": {
+     "Ref": "CRUDcustomerDeployment92665D03584b95e895bc7215b40073498b9c9579"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/DeploymentStage.prod/Resource"
+   }
+  },
+  "CRUDcustomerproxy937A8A12": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "CRUDcustomerA15B215B",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "{proxy+}",
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/{proxy+}/Resource"
+   }
+  },
+  "CRUDcustomerproxyANYApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DANYproxyBBBE846C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/",
+       {
+        "Ref": "CRUDcustomerDeploymentStageprod7DDF6B69"
+       },
+       "/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/{proxy+}/ANY/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.ANY..{proxy+}"
+   }
+  },
+  "CRUDcustomerproxyANYApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DANYproxy2D353D0D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/test-invoke-stage/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/{proxy+}/ANY/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.ANY..{proxy+}"
+   }
+  },
+  "CRUDcustomerproxyANY41EA8FAF": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "ANY",
+    "ResourceId": {
+     "Ref": "CRUDcustomerproxy937A8A12"
+    },
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "customerhandlerDBA6143A",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/{proxy+}/ANY/Resource"
+   }
+  },
+  "CRUDcustomerANYApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DANYE592CEC4": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/",
+       {
+        "Ref": "CRUDcustomerDeploymentStageprod7DDF6B69"
+       },
+       "/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/ANY/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.ANY.."
+   }
+  },
+  "CRUDcustomerANYApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DANY84E7F3F9": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/test-invoke-stage/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/ANY/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.ANY.."
+   }
+  },
+  "CRUDcustomerANY61799B2B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "ANY",
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "CRUDcustomerA15B215B",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "customerhandlerDBA6143A",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/ANY/Resource"
+   }
+  },
+  "CRUDcustomer1925A188": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "CRUDcustomerA15B215B",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "CRUD_customer",
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/Resource"
+   }
+  },
+  "CRUDcustomerPOSTApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DPOSTCRUDcustomer89BD33F6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/",
+       {
+        "Ref": "CRUDcustomerDeploymentStageprod7DDF6B69"
+       },
+       "/POST/CRUD_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/POST/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.POST..CRUD_customer"
+   }
+  },
+  "CRUDcustomerPOSTApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DPOSTCRUDcustomer58A853FF": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/test-invoke-stage/POST/CRUD_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/POST/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.POST..CRUD_customer"
+   }
+  },
+  "CRUDcustomerPOST38083819": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "POST",
+    "ResourceId": {
+     "Ref": "CRUDcustomer1925A188"
+    },
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "customerhandlerDBA6143A",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/POST/Resource"
+   }
+  },
+  "CRUDcustomerGETApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DGETCRUDcustomer7B4DA172": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/",
+       {
+        "Ref": "CRUDcustomerDeploymentStageprod7DDF6B69"
+       },
+       "/GET/CRUD_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/GET/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.GET..CRUD_customer"
+   }
+  },
+  "CRUDcustomerGETApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DGETCRUDcustomer244CFBA6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/test-invoke-stage/GET/CRUD_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/GET/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.GET..CRUD_customer"
+   }
+  },
+  "CRUDcustomerGET8238678B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "GET",
+    "ResourceId": {
+     "Ref": "CRUDcustomer1925A188"
+    },
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "customerhandlerDBA6143A",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/GET/Resource"
+   }
+  },
+  "CRUDcustomerPATCHApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DPATCHCRUDcustomer704A8A35": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/",
+       {
+        "Ref": "CRUDcustomerDeploymentStageprod7DDF6B69"
+       },
+       "/PATCH/CRUD_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/PATCH/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.PATCH..CRUD_customer"
+   }
+  },
+  "CRUDcustomerPATCHApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DPATCHCRUDcustomer609B7895": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/test-invoke-stage/PATCH/CRUD_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/PATCH/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.PATCH..CRUD_customer"
+   }
+  },
+  "CRUDcustomerPATCH75D27B00": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "PATCH",
+    "ResourceId": {
+     "Ref": "CRUDcustomer1925A188"
+    },
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "customerhandlerDBA6143A",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/PATCH/Resource"
+   }
+  },
+  "CRUDcustomerDELETEApiPermissionmessageschedulingappCRUDcustomerDCFBDE1DDELETECRUDcustomer598280AA": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/",
+       {
+        "Ref": "CRUDcustomerDeploymentStageprod7DDF6B69"
+       },
+       "/DELETE/CRUD_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/DELETE/ApiPermission.messageschedulingappCRUDcustomerDCFBDE1D.DELETE..CRUD_customer"
+   }
+  },
+  "CRUDcustomerDELETEApiPermissionTestmessageschedulingappCRUDcustomerDCFBDE1DDELETECRUDcustomer79431010": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "CRUDcustomerA15B215B"
+       },
+       "/test-invoke-stage/DELETE/CRUD_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/DELETE/ApiPermission.Test.messageschedulingappCRUDcustomerDCFBDE1D.DELETE..CRUD_customer"
+   }
+  },
+  "CRUDcustomerDELETE59736653": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "DELETE",
+    "ResourceId": {
+     "Ref": "CRUDcustomer1925A188"
+    },
+    "RestApiId": {
+     "Ref": "CRUDcustomerA15B215B"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "customerhandlerDBA6143A",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CRUD_customer/Default/CRUD_customer/DELETE/Resource"
+   }
+  },
+  "allcustomers5C8AE6BF": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "all_customers"
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Resource"
+   }
+  },
+  "allcustomersDeployment464C006Eb700d0a8e5a45fdb0945f57693ae94ca": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "allcustomers5C8AE6BF"
+    },
+    "Description": "Automatically created by the RestApi construct"
+   },
+   "DependsOn": [
+    "allcustomersproxyANY753308FA",
+    "allcustomersproxyCFCAF4DB",
+    "allcustomersGET91E8B63E",
+    "allcustomers4B948329",
+    "allcustomersANY1F1F79CD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Deployment/Resource"
+   }
+  },
+  "allcustomersDeploymentStageprodAF3C56D7": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "allcustomers5C8AE6BF"
+    },
+    "DeploymentId": {
+     "Ref": "allcustomersDeployment464C006Eb700d0a8e5a45fdb0945f57693ae94ca"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/DeploymentStage.prod/Resource"
+   }
+  },
+  "allcustomersproxyCFCAF4DB": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "allcustomers5C8AE6BF",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "{proxy+}",
+    "RestApiId": {
+     "Ref": "allcustomers5C8AE6BF"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/{proxy+}/Resource"
+   }
+  },
+  "allcustomersproxyANYApiPermissionmessageschedulingappallcustomers46DEF15AANYproxyFE641E8C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "allcustomers5C8AE6BF"
+       },
+       "/",
+       {
+        "Ref": "allcustomersDeploymentStageprodAF3C56D7"
+       },
+       "/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/{proxy+}/ANY/ApiPermission.messageschedulingappallcustomers46DEF15A.ANY..{proxy+}"
+   }
+  },
+  "allcustomersproxyANYApiPermissionTestmessageschedulingappallcustomers46DEF15AANYproxy1C513B46": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "allcustomers5C8AE6BF"
+       },
+       "/test-invoke-stage/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/{proxy+}/ANY/ApiPermission.Test.messageschedulingappallcustomers46DEF15A.ANY..{proxy+}"
+   }
+  },
+  "allcustomersproxyANY753308FA": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "ANY",
+    "ResourceId": {
+     "Ref": "allcustomersproxyCFCAF4DB"
+    },
+    "RestApiId": {
+     "Ref": "allcustomers5C8AE6BF"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "customerhandlerDBA6143A",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/{proxy+}/ANY/Resource"
+   }
+  },
+  "allcustomersANYApiPermissionmessageschedulingappallcustomers46DEF15AANY08FBF725": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "allcustomers5C8AE6BF"
+       },
+       "/",
+       {
+        "Ref": "allcustomersDeploymentStageprodAF3C56D7"
+       },
+       "/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/ANY/ApiPermission.messageschedulingappallcustomers46DEF15A.ANY.."
+   }
+  },
+  "allcustomersANYApiPermissionTestmessageschedulingappallcustomers46DEF15AANYFDD838E6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "allcustomers5C8AE6BF"
+       },
+       "/test-invoke-stage/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/ANY/ApiPermission.Test.messageschedulingappallcustomers46DEF15A.ANY.."
+   }
+  },
+  "allcustomersANY1F1F79CD": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "ANY",
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "allcustomers5C8AE6BF",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "allcustomers5C8AE6BF"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "customerhandlerDBA6143A",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/ANY/Resource"
+   }
+  },
+  "allcustomers4B948329": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "allcustomers5C8AE6BF",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "all_customers",
+    "RestApiId": {
+     "Ref": "allcustomers5C8AE6BF"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/all_customers/Resource"
+   }
+  },
+  "allcustomersGETApiPermissionmessageschedulingappallcustomers46DEF15AGETallcustomers62733A94": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "allcustomers5C8AE6BF"
+       },
+       "/",
+       {
+        "Ref": "allcustomersDeploymentStageprodAF3C56D7"
+       },
+       "/GET/all_customers"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/all_customers/GET/ApiPermission.messageschedulingappallcustomers46DEF15A.GET..all_customers"
+   }
+  },
+  "allcustomersGETApiPermissionTestmessageschedulingappallcustomers46DEF15AGETallcustomers409AA75D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "customerhandlerDBA6143A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "allcustomers5C8AE6BF"
+       },
+       "/test-invoke-stage/GET/all_customers"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/all_customers/GET/ApiPermission.Test.messageschedulingappallcustomers46DEF15A.GET..all_customers"
+   }
+  },
+  "allcustomersGET91E8B63E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "GET",
+    "ResourceId": {
+     "Ref": "allcustomers4B948329"
+    },
+    "RestApiId": {
+     "Ref": "allcustomers5C8AE6BF"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "customerhandlerDBA6143A",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/all_customers/Default/all_customers/GET/Resource"
+   }
+  },
+  "notifycustomer81DD0E2E": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "notify_customer"
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Resource"
+   }
+  },
+  "notifycustomerDeployment5B89FC46a585faad9b7f702c4a69d0d921962e7f": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "notifycustomer81DD0E2E"
+    },
+    "Description": "Automatically created by the RestApi construct"
+   },
+   "DependsOn": [
+    "notifycustomerproxyANYAC6AAA6A",
+    "notifycustomerproxy4817AA25",
+    "notifycustomerANY68114751",
+    "notifycustomerGET83409350",
+    "notifycustomer61F395BD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Deployment/Resource"
+   }
+  },
+  "notifycustomerDeploymentStageprod0CF03701": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "notifycustomer81DD0E2E"
+    },
+    "DeploymentId": {
+     "Ref": "notifycustomerDeployment5B89FC46a585faad9b7f702c4a69d0d921962e7f"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/DeploymentStage.prod/Resource"
+   }
+  },
+  "notifycustomerproxy4817AA25": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "notifycustomer81DD0E2E",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "{proxy+}",
+    "RestApiId": {
+     "Ref": "notifycustomer81DD0E2E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/{proxy+}/Resource"
+   }
+  },
+  "notifycustomerproxyANYApiPermissionmessageschedulingappnotifycustomer356C68D9ANYproxy32880554": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "sendsesBB71154B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "notifycustomer81DD0E2E"
+       },
+       "/",
+       {
+        "Ref": "notifycustomerDeploymentStageprod0CF03701"
+       },
+       "/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/{proxy+}/ANY/ApiPermission.messageschedulingappnotifycustomer356C68D9.ANY..{proxy+}"
+   }
+  },
+  "notifycustomerproxyANYApiPermissionTestmessageschedulingappnotifycustomer356C68D9ANYproxy0EAB412F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "sendsesBB71154B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "notifycustomer81DD0E2E"
+       },
+       "/test-invoke-stage/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/{proxy+}/ANY/ApiPermission.Test.messageschedulingappnotifycustomer356C68D9.ANY..{proxy+}"
+   }
+  },
+  "notifycustomerproxyANYAC6AAA6A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "ANY",
+    "ResourceId": {
+     "Ref": "notifycustomerproxy4817AA25"
+    },
+    "RestApiId": {
+     "Ref": "notifycustomer81DD0E2E"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "sendsesBB71154B",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/{proxy+}/ANY/Resource"
+   }
+  },
+  "notifycustomerANYApiPermissionmessageschedulingappnotifycustomer356C68D9ANY968CC942": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "sendsesBB71154B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "notifycustomer81DD0E2E"
+       },
+       "/",
+       {
+        "Ref": "notifycustomerDeploymentStageprod0CF03701"
+       },
+       "/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/ANY/ApiPermission.messageschedulingappnotifycustomer356C68D9.ANY.."
+   }
+  },
+  "notifycustomerANYApiPermissionTestmessageschedulingappnotifycustomer356C68D9ANY2CC09B5E": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "sendsesBB71154B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "notifycustomer81DD0E2E"
+       },
+       "/test-invoke-stage/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/ANY/ApiPermission.Test.messageschedulingappnotifycustomer356C68D9.ANY.."
+   }
+  },
+  "notifycustomerANY68114751": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "ANY",
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "notifycustomer81DD0E2E",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "notifycustomer81DD0E2E"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "sendsesBB71154B",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/ANY/Resource"
+   }
+  },
+  "notifycustomer61F395BD": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "notifycustomer81DD0E2E",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "notify_customer",
+    "RestApiId": {
+     "Ref": "notifycustomer81DD0E2E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/notify_customer/Resource"
+   }
+  },
+  "notifycustomerGETApiPermissionmessageschedulingappnotifycustomer356C68D9GETnotifycustomer01C33F0E": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "sendsesBB71154B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "notifycustomer81DD0E2E"
+       },
+       "/",
+       {
+        "Ref": "notifycustomerDeploymentStageprod0CF03701"
+       },
+       "/GET/notify_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/notify_customer/GET/ApiPermission.messageschedulingappnotifycustomer356C68D9.GET..notify_customer"
+   }
+  },
+  "notifycustomerGETApiPermissionTestmessageschedulingappnotifycustomer356C68D9GETnotifycustomerA612DCD0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "sendsesBB71154B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "notifycustomer81DD0E2E"
+       },
+       "/test-invoke-stage/GET/notify_customer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/notify_customer/GET/ApiPermission.Test.messageschedulingappnotifycustomer356C68D9.GET..notify_customer"
+   }
+  },
+  "notifycustomerGET83409350": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "GET",
+    "ResourceId": {
+     "Ref": "notifycustomer61F395BD"
+    },
+    "RestApiId": {
+     "Ref": "notifycustomer81DD0E2E"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "sendsesBB71154B",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/notify_customer/Default/notify_customer/GET/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WPwU7DMBBEv6V3xxQK4twWcQIRBe7Vxl7CktiO4rVKFOXfsZ0UldO8nV2Nx3fy/kFuN3D2hdJt0VEtp3cG1YponSY9WjBOR/MD6g7F8dNmmAWBkVPlFi/pLDowtQY5PQermJxNm2sucTDkfZxm4Xcn8B7Zy32SOMtDUC3yATwK6KkBxjOMcnrJqRV63veUH1vxCfvOjQYtJ/dqiv2bXGuBeO/CoDAnl4P7GS/OmrbwK/KX08la6bKZ5z8UuWyKJduk07fAfeB/OZGPzmri/M9yjFn2Zidvt/Jx8+2JiiFYJoOyWvQXcJYQ64IBAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "message-scheduling-app/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "CRUDcustomerEndpoint3F126613": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "CRUDcustomerA15B215B"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "CRUDcustomerDeploymentStageprod7DDF6B69"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "allcustomersEndpointD5782876": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "allcustomers5C8AE6BF"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "allcustomersDeploymentStageprodAF3C56D7"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "notifycustomerEndpoint036C01AC": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "notifycustomer81DD0E2E"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "notifycustomerDeploymentStageprod0CF03701"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
