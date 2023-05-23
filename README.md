@@ -1,5 +1,5 @@
 
-# Welcome to AWS_CRUD_RestAPI
+# Welcome to AWS_EmailApplication
 
 This application enables the user to perform CRUD operations on a DynamoDB using AWS LambdaFunctions as the backend and AmazonAPIGateway as a REST frontend.
 
